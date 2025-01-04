@@ -1,0 +1,93 @@
+Following configurations are preformed on switch:
+1- Change the hostname of Switch.
+2- Implement password/secret on the enable command (user privilege mode)
+3- Block DNS-lookup.
+4- Setup user account and provide username and password along with privilege level.
+5- Setup IP domain name.
+6- Generate encryption key using RSA.
+7- Give IP to VLAN interface along with subnet mask. 
+8- Transport SSH on VTY lines.
+
+1- Change the hostname of Switch.
+   Alreday done
+
+2- Implement password/secret on the enable command (user privilege mode)
+   Already done 
+
+3- Block DNS-lookup.
+   s1(config)#ip domain lookup 
+
+4- Setup user account and provide username and password along with privilege level.
+_________________useraccount-name__________password________
+s1(config)#username moazam        | privilege   secret khan|
+___________________________________________________________|   
+s1(config)#username moazam privilege secret khan|
+________________________________________________|
+
+5- Setup IP domain name.
+    s1(config)#ip domain name uet.com
+
+6- Generate encryption key using RSA.
+ s1(config)#crypto key generate rsa
+
+The name for the keys will be: s1.uet.com
+Choose the size of the key modulus in the range of 360 to 2048 for your
+  General Purpose Keys. Choosing a key modulus greater than 512 may take
+  a few minutes.
+
+How many bits in the modulus [512]: 2040
+if key is < 1024 then switch is v1
+if key is > 1024 then switch is v2
+
+
+7- Give IP to VLAN interface along with subnet mask.
+ 
+8- Transport SSH on VTY lines.
+s1(config)#line vty 0 7
+*Mar 1 0:21:24.805: %SSH-5-ENABLED: SSH 1.99 has been enabled
+
+
+
+___________________________________________________________________________________________
+___________________________________________________________________________________________
+___________________________________________________________________________________________
+remote access to switch
+                                                                 
+s1#configure terminal 
+Enter configuration commands, one per line.  End with CNTL/Z.
+
+s1#configure terminal 
+Enter configuration commands, one per line.  End with CNTL/Z.
+
+s1(config)#username moazam privilege 7 secret cisco
+s1(config)#ip domain name uet.com
+
+s1(config)#crypto key generate rsa
+
+% You already have RSA keys defined named s1.uet.com .
+% Do you really want to replace them? [yes/no]: yes
+The name for the keys will be: s1.uet.com
+Choose the size of the key modulus in the range of 360 to 2048 for your
+  General Purpose Keys. Choosing a key modulus greater than 512 may take
+  a few minutes.
+
+How many bits in the modulus [512]: 2048
+% Generating 2048 bit RSA keys, keys will be non-exportable...[OK]
+
+s1(config)#line vty
+*Mar 1 0:16:43.921: %SSH-5-ENABLED: SSH 1.99 has been enabled
+s1(config)#line vty 0 7
+
+s1(config-line)#interface vlan 1
+
+s1(config-if)#ip address 192.168.6.6 255.255.255.0
+s1(config-if)#no shut
+s1(config-if)#exit
+s1(config)#line vty 0 7
+s1(config-line)#trans
+s1(config-line)#transport input ssh
+
+s1(config-line)#login local 
+s1(config-line)#exit
+____________________________________________________________________________________________
+_____________________________________________________________________________________________
